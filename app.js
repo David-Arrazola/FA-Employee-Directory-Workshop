@@ -21,10 +21,15 @@ app.get("/employees/random", (req, res) => {
 
 app.get("/employees/:id", (req, res) => {
   const { id } = req.params;
+
+  if (Number(id) < 0 || Number(id) > 10) {
+    return res.status(404).send("Number should be with 1-10");
+  }
+
   const selectedEmployee = employees.filter(
     //* Had to put "Number()" because "currWorker.id" is a INTEGER, and "id" is a STRING
     (currWorker) => currWorker.id === Number(id),
   );
 
-  res.send(selectedEmployee);
+  res.status(202).send(selectedEmployee[0]);
 });
